@@ -1,6 +1,8 @@
 #!/usr/bin/env python3.5
 #-*- coding: utf-8 -*-
 
+
+
 import cryptocompare
 
 print("---------------------------------")
@@ -10,14 +12,14 @@ print("---------------------------------")
 def getCoinsList():
 
 	listeCoins = cryptocompare.get_coin_list()
-	
+
 	for coin in listeCoins:
 
 		print(coin)
 
 def question():
 
-	choix = int(input("\nQue souhaitez vous faire ? \n\n1> Afficher la liste des cryptomonaies \n2> Connaitre la valeur d'une cryptomonaie \n3> Quitter \n\nChoix : "))
+	choix = int(input("\nQue souhaitez vous faire ? \n\n1> Afficher la liste des cryptomonaies \n2> Obtenir des informations sur une cryptomonaie \n3> Quitter \n\nChoix : "))
 
 	if (choix == 1):
 		print("\nListe des cryptomonaies :")
@@ -27,13 +29,20 @@ def question():
 	elif (choix == 2):
 		crypto = input("\nQuelle cryptomonaie souhaitez vous afficher ? : " )
 		
-		dico = cryptocompare.get_price(crypto)
+		#repr permet de convertir la valeur en string pour pouvoir l'insérer dans le print
 
-		valeur = repr(dico.get(crypto).get('EUR')) #repr permet de convertir la valeur en string pour pouvoir l'insérer dans le print
+		identifiant = cryptocompare.get_coin_list().get(crypto).get('Name')
+		nomComplet = cryptocompare.get_coin_list().get(crypto).get('CoinName')
+		valeurEUR = repr(cryptocompare.get_price(crypto).get(crypto).get('EUR')) 
+		valeurUSD = repr(cryptocompare.get_price(crypto, curr='USD').get(crypto).get('USD')) 
+		classement = cryptocompare.get_coin_list().get(crypto).get('SortOrder')
 
-		print("\n-------------------")
-		print(crypto+" : "+valeur+" €")
-		print("-------------------")
+		print("\n----------------------")
+		print("Identifiant : "+identifiant)
+		print("Nom complet : "+nomComplet)
+		print("Valeur : "+valeurEUR+"€ / "+valeurUSD+"$")
+		print("Classement : "+classement)
+		print("-----------------------")
 
 
 	elif (choix == 3):
@@ -43,5 +52,9 @@ def question():
 	else:
 		print("\nMerci de rentrer 1 ou 2 !")
 
-while (True):
-	question()
+while True:
+	try:
+		question()
+
+	except AttributeError:
+		print("\nMerci de rentrer une valeur exacte !")
