@@ -26,9 +26,9 @@ def question():
 	elif (choix == 2):
 		crypto = input("\nQuelle cryptomonaie souhaitez vous afficher ? : " )
 		
-		identifiant = cryptocompare.get_coin_list().get(crypto).get('Name') #repr permet de convertir la valeur en string pour pouvoir l'insérer dans le print
+		identifiant = cryptocompare.get_coin_list().get(crypto).get('Name')
 		nomComplet = cryptocompare.get_coin_list().get(crypto).get('CoinName')
-		valeurEUR = repr(cryptocompare.get_price(crypto).get(crypto).get('EUR')) 
+		valeurEUR = repr(cryptocompare.get_price(crypto).get(crypto).get('EUR')) #repr permet de convertir la valeur en string pour pouvoir l'insérer dans le print
 		valeurUSD = repr(cryptocompare.get_price(crypto, curr='USD').get(crypto).get('USD')) 
 		classement = cryptocompare.get_coin_list().get(crypto).get('SortOrder')
 
