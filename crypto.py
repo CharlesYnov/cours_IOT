@@ -14,9 +14,25 @@ def getCoinsList():
 	for coin in listeCoins:
 		print(coin)
 
+def getCoinPrice(coin, devise):
+
+	return repr(cryptocompare.get_price(coin, curr=devise).get(coin).get(devise))
+
+def getCoinName(coin):
+
+	return cryptocompare.get_coin_list().get(coin).get('CoinName')
+
+def getCoinID(coin):
+
+	return cryptocompare.get_coin_list().get(coin).get('Name') 
+
+def getCoinClassement(coin):
+
+	return cryptocompare.get_coin_list().get(coin).get('SortOrder')
+
 def question():
 
-	choix = int(input("\nQue souhaitez vous faire ? \n\n1> Afficher la liste des cryptomonaies \n2> Obtenir des informations sur une cryptomonaie \n3> Quitter \n\nChoix : "))
+	choix = int(input("\nQue souhaitez vous faire ? \n\n1> Afficher la liste des cryptomonaies \n2> Obtenir des informations sur une cryptomonaie \n3> Convertir une cryptomonaie \n4> Quitter \n\nChoix : "))
 
 	if (choix == 1):
 		print("\nListe des cryptomonaies :")
@@ -24,13 +40,13 @@ def question():
 		print(getCoinsList())
 
 	elif (choix == 2):
-		crypto = input("\nQuelle cryptomonaie souhaitez vous afficher ? : " )
+		crypto = input("\nQuelle cryptomonaie souhaitez vous afficher ? : ")
 		
-		identifiant = cryptocompare.get_coin_list().get(crypto).get('Name')
-		nomComplet = cryptocompare.get_coin_list().get(crypto).get('CoinName')
-		valeurEUR = repr(cryptocompare.get_price(crypto).get(crypto).get('EUR')) #repr permet de convertir la valeur en string pour pouvoir l'insérer dans le print
-		valeurUSD = repr(cryptocompare.get_price(crypto, curr='USD').get(crypto).get('USD')) 
-		classement = cryptocompare.get_coin_list().get(crypto).get('SortOrder')
+		identifiant = getCoinID(crypto)
+		nomComplet = getCoinName(crypto)
+		valeurEUR = getCoinPrice(crypto, 'EUR')
+		valeurUSD = getCoinPrice(crypto, 'USD')
+		classement = getCoinClassement(crypto)
 
 		print("\n----------------------")
 		print("Identifiant : "+identifiant)
@@ -40,11 +56,38 @@ def question():
 		print("-----------------------")
 
 	elif (choix == 3):
+		crypto = input("\nQuelle cryptomonaie souhaitez vous convertir ? : ")
+		devise = input("\nEn quelle devise souhaitez vous convertir votre cryptomonaie ? (EUR ou USD) : ")
+
+		cryptoName = getCoinName(crypto)
+		valeur = getCoinPrice(crypto, devise)
+
+		val = float(valeur)
+
+		qte = int(input("\nCombien de "+cryptoName+" souhaitez vous convertir ? : "))
+		valTotal = str(qte*val)
+
+		print("\n----------------------")
+		print("Cryptomonaie : "+cryptoName)
+
+		if(devise == 'EUR'):
+			print("Valeur unitaire : "+valeur+"€")
+			print("Quantité : "+str(qte)+" unitée(s)")
+			print("Valeur totale : "+valTotal+"€")
+
+		elif(devise == 'USD'):
+			print("Valeur unitaire : "+valeur+"$")
+			print("Quantité : "+str(qte)+" unitée(s)")
+			print("Valeur totale : "+valTotal+"$")
+
+		print("-----------------------")
+
+	elif (choix == 4):
 		print("\nA bientot sur l'API CryptoCompare !")
 		exit()
 
 	else:
-		print("\nMerci de rentrer 1, 2 ou 3 !")
+		print("\nMerci de rentrer 1, 2, 3 ou 4 !")
 
 while True:
 	try:
@@ -54,4 +97,4 @@ while True:
 		print("\nMerci de rentrer une valeur exacte !")
 
 	except ValueError:
-		print("\nMerci de rentrer 1, 2 ou 3 !")
+		print("\nMerci de rentrer 1, 2, 3 ou 4 !")
