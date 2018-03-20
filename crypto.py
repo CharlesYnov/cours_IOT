@@ -1,8 +1,6 @@
 #!/usr/bin/env python3.5
 #-*- coding: utf-8 -*-
 
-
-
 import cryptocompare
 
 print("---------------------------------")
@@ -14,7 +12,6 @@ def getCoinsList():
 	listeCoins = cryptocompare.get_coin_list()
 
 	for coin in listeCoins:
-
 		print(coin)
 
 def question():
@@ -29,9 +26,7 @@ def question():
 	elif (choix == 2):
 		crypto = input("\nQuelle cryptomonaie souhaitez vous afficher ? : " )
 		
-		#repr permet de convertir la valeur en string pour pouvoir l'insérer dans le print
-
-		identifiant = cryptocompare.get_coin_list().get(crypto).get('Name')
+		identifiant = cryptocompare.get_coin_list().get(crypto).get('Name') #repr permet de convertir la valeur en string pour pouvoir l'insérer dans le print
 		nomComplet = cryptocompare.get_coin_list().get(crypto).get('CoinName')
 		valeurEUR = repr(cryptocompare.get_price(crypto).get(crypto).get('EUR')) 
 		valeurUSD = repr(cryptocompare.get_price(crypto, curr='USD').get(crypto).get('USD')) 
@@ -44,13 +39,12 @@ def question():
 		print("Classement : "+classement)
 		print("-----------------------")
 
-
 	elif (choix == 3):
 		print("\nA bientot sur l'API CryptoCompare !")
 		exit()
 
 	else:
-		print("\nMerci de rentrer 1 ou 2 !")
+		print("\nMerci de rentrer 1, 2 ou 3 !")
 
 while True:
 	try:
@@ -58,3 +52,6 @@ while True:
 
 	except AttributeError:
 		print("\nMerci de rentrer une valeur exacte !")
+
+	except ValueError:
+		print("\nMerci de rentrer 1, 2 ou 3 !")
